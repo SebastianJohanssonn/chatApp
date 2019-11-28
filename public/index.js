@@ -4,21 +4,20 @@ const typing = document.getElementById('typing')
 const msgBtn = document.getElementById('msgBtn')
 const messageInput = document.getElementById('m')
 
-function initSite(){
+socket.on('message', function(msg){
     let li = document.createElement('li');
-    socket.on('message', function(msg){
-        li.innerHTML = msg
-        messageList.appendChild(li)
-    });
-    socket.on('disconnect message', function(){
-        li.innerText = "User disconnected"
-        messageList.appendChild(li)
-    });
-    socket.on('connection message', function(){
-        li.innerText = "User connected"
-        messageList.appendChild(li)
-    });
-     getGifs()
+    li.innerHTML = msg
+    messageList.append(li)
+});
+socket.on('disconnect message', function(){
+    li.innerText = "User disconnected"
+    messageList.appendChild(li)
+});
+socket.on('connection message', function(){
+    li.innerText = "User connected"
+    messageList.appendChild(li)
+});
+function initSite(){
 
     /* messageInput.addEventListener('keyup', function(e){
         if(e.keyCode === 13){
@@ -40,18 +39,22 @@ function initSite(){
 }
 
 async function getGifs(){
+    
     const gifDiv = document.getElementById("gifs");
     const image = document.createElement("img")
     await fetch(`http://localhost:3000/gifs/${messageInput.value}`)
         .then(res => res.json())
         .then(data =>{
-            console.log(data.data[0].images)
-            image.src = data.data[0].images.downsized.url
-            gifDiv.appendChild(image)
+            
+                console.log(data.data[0].images)
+                image.src = data.data[0].images.downsized.url
+                gifDiv.appendChild(image)
+            
         }).
         catch(error => {
             console.log(error)
         })
+    
 }
 
 $(function () {

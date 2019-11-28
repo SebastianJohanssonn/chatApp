@@ -7,7 +7,7 @@ let key = "P3AQOb2xS2adhA2lOUe4kgRmuuGn0MMp"
 
 app.use(express.static('public'))
 
-app.get("/gifs/:gif", function(req, res){
+app.get("/gifs//:gif", function(req, res){
     request(`http://api.giphy.com/v1/gifs/search?q=${req.params.gif}&api_key=${key}&limit=5`, function(err, response, body){
         if(err){
             res.json({
