@@ -32,8 +32,14 @@ io.on('connection', function(socket){
     socket.on('typing', function(){
         socket.broadcast.emit('typing')
     })
+    socket.on('newuser', function (nick){
+        var newUser = nick;
+        console.log(newUser + ' connected');
+    })
+
 });
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
+
