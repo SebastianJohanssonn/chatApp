@@ -1,23 +1,33 @@
 var socket = io()
 const messageList = document.getElementById('messages')
 const typing = document.getElementById('typing')
-const msgBtn = document.getElementById('msgBtn')
-const messageInput = document.getElementById('m')
+const messageInput = document.getElementById('message')
 
-
+//Shows message
 socket.on('message', function(msg){
     let li = document.createElement('li');
     li.innerHTML = msg
     messageList.append(li)
+    socket.emit('newuser', nick);
 });
+//Shows if user disconnected
 socket.on('disconnect message', function(){
     li.innerText = "User disconnected"
     messageList.appendChild(li)
 });
+//Shows if user connected
 socket.on('connection message', function(){
     li.innerText = "User connected"
     messageList.appendChild(li)
 });
+//Show gif
+socket.on("recieve gif", function(data){
+    const gifDiv = document.getElementById("messages");
+    const image = document.createElement("img")
+    image.className= "row"
+    image.src = JSON.parse(data).data[0].images.downsized.url
+    gifDiv.appendChild(image)
+})
 function initSite(){
 
     /* messageInput.addEventListener('keyup', function(e){
@@ -39,29 +49,6 @@ function initSite(){
     
 }
 
-async function getGifs(){
-    
-    const gifDiv = document.getElementById("messages");
-    const image = document.createElement("img")
-    image.className= "row"
-
-    
-    await fetch(`http://localhost:3000/gifs/${messageInput.value}`)
-        .then(res => res.json())
-        .then(data =>{
-            
-                console.log(data.data[0].images)
-                image.src = data.data[0].images.downsized.url
-                gifDiv.appendChild(image)
-            
-        }).
-        catch(error => {
-            console.log(error)
-        })
-    
-}
-
-
 var nick = prompt('What is your desired username?');
 $(function () {
     socket.emit('newuser', nick);
@@ -70,7 +57,11 @@ $(function () {
 $(function () {
     $('form').submit(function(e){
         e.preventDefault();
-        socket.emit('chat message' ,messageInput.value);
+        if(messageInput.value.indexOf("/") === 0){
+            socket.emit("gif", messageInput.value.substring(1))
+        }else {
+            socket.emit('chat message', messageInput.value);
+        }
         messageInput.value = "";
         return false;
     });

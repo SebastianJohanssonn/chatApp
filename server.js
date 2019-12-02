@@ -7,18 +7,8 @@ let key = "P3AQOb2xS2adhA2lOUe4kgRmuuGn0MMp"
 
 app.use(express.static('public'))
 
-app.get("/gifs//:gif", function(req, res){
-    request(`http://api.giphy.com/v1/gifs/search?q=${req.params.gif}&api_key=${key}&limit=5`, function(err, response, body){
-        if(err){
-            res.json({
-                message: err
-            })
-        }else {
-            res.send(
-                body
-            )
-        }   
-    })
+app.get("/gifs/:gif", function(req, res){
+    
 })
 
 io.on('connection', function(socket){
@@ -35,6 +25,16 @@ io.on('connection', function(socket){
     socket.on('newuser', function (nick){
         var newUser = nick;
         console.log(newUser + ' connected');
+    })
+    socket.on('gif', function(topic){
+        request(`http://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${key}&limit=5`, function(err, response, body){
+            if(err){
+               console.log(err)
+            }else {
+                console.log("receive gif")
+                socket.emit('recieve gif', body)
+            }   
+        })
     })
 
 });
