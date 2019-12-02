@@ -19,3 +19,10 @@ body {
 #messages img {
     margin-left: 0px;
 }
+
+#commands {
+    display: none;
+}
+#commands ul {
+    list-style-type: none;
+}

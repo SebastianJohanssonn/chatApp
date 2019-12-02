@@ -2,6 +2,7 @@ var socket = io()
 const messageList = document.getElementById('messages')
 const typing = document.getElementById('typing')
 const messageInput = document.getElementById('message')
+const commands = document.getElementById("commands")
 
 //Shows message
 socket.on('message', function(msg){
@@ -28,6 +29,14 @@ socket.on("recieve gif", function(data){
     image.src = JSON.parse(data).data[0].images.downsized.url
     gifDiv.appendChild(image)
 })
+
+function showCommands(){
+    if(messageInput.value === "/"){
+        commands.style.display = "flex"
+    }else {
+        commands.style.display = "none"
+    }
+}
 function initSite(){
 
     /* messageInput.addEventListener('keyup', function(e){

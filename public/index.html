@@ -13,8 +13,14 @@
 <body onload="initSite()">
     <ul id="messages"></ul>
     <div id="typing"></div>
+    <div id="commands">
+        <ul>
+            <p>List of commands:</p>
+            <li>Random word for a random gif</li>
+        </ul>
+    </div>
     <form action="">
-        <input class="input-group" id="message" autocomplete="off"/><button class="btn btn-primary">Send</button>
+        <input class="input-group" oninput="showCommands()" id="message" placeholder="Type message here, or type '/' + word of your choice for a random gif " autocomplete="off"/><button class="btn btn-primary">Send</button>
     </form>
 
 
