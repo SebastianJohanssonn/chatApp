@@ -12,7 +12,8 @@ app.get("/gifs/:gif", function(req, res){
 })
 
 io.on('connection', function(socket){
-    socket.broadcast.emit('connection message')
+    socket.broadcast.emit("connection message")
+
     socket.on('chat message', function(msg){
         io.send(msg)
       });
@@ -31,8 +32,7 @@ io.on('connection', function(socket){
             if(err){
                console.log(err)
             }else {
-                console.log("receive gif")
-                socket.emit('recieve gif', body)
+                io.emit('recieve gif', body)
             }   
         })
     })
