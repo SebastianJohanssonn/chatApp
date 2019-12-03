@@ -26,3 +26,8 @@ body {
 #commands ul {
     list-style-type: none;
 }
+
+#mainWrap{
+    display:none;
+}
+

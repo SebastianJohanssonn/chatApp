@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
     <title>shutUp chatApp</title>
 </head>
 <body onload="initSite()">
-    <ul id="messages"></ul>
+  <div id="mainWrap">  
+  <ul id="messages"></ul>
     <div id="typing"></div>
     <div id="commands">
         <ul>
@@ -19,9 +20,18 @@
             <li>Random word for a random gif</li>
         </ul>
     </div>
-    <form id="messageForm" action="">
+    <form id="messageForm"  action="">
         <input class="input-group" oninput="showCommands()" id="message" placeholder="Type message here, or type '/' + word of your choice for a random gif " autocomplete="off"/><button class="btn btn-primary">Send</button>
     </form>
+  </div>
+    <div id="userFormWrap">
+      <form id="userForm" action="">
+        <input type="text" class="form-control" id="username" placeholder="Whats your Name">
+        <input type="submit" class="btn btn-secondary" id="subButton" value="Press">
+      </form>
+
+    </div>
+    
 
 
 </body>
