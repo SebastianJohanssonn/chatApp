@@ -41,23 +41,31 @@ function showCommands(){
     }
 }
 function initSite(){
+    socket.on('typing', function(){
+        typing.innerHTML = '<p><em>User is typing...</em></p>';  
+    })
+    socket.on('not typing', function(){
+        typing.innerHTML = ""   
+    })
 
-    /* messageInput.addEventListener('keyup', function(e){
-        if(e.keyCode === 13){
+    messageInput.addEventListener('keyup', function(e){
+        if(e.keyCode === 13 || messageInput.value === ""){
             socket.emit("not typing")
         }else{
             socket.emit('typing')
         }
     })
-    socket.on('typing', function(){
-        typing.innerHTML = '<p><em>User is typing...</em></p>';
-        
+    
+    messageForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        if(messageInput.value.indexOf("/") === 0){
+            socket.emit("gif", messageInput.value.substring(1))
+        }else {
+            socket.emit('chat message', messageInput.value);
+        }
+        messageInput.value = "";
+        return false;
     })
-    socket.on('not typing', function(){
-        setTimeout(() => {
-            typing.innerHTML = ""  
-        }, 5000)
-    }) */
     
 }
 
@@ -65,17 +73,6 @@ var nick = prompt('What is your desired username?');
 $(function () {
     socket.emit('newuser', nick);
 });
-
-messageForm.addEventListener("submit", function(e){
-    e.preventDefault();
-    if(messageInput.value.indexOf("/") === 0){
-        socket.emit("gif", messageInput.value.substring(1))
-    }else {
-        socket.emit('chat message', messageInput.value);
-    }
-    messageInput.value = "";
-    return false;
-})
     
 
 

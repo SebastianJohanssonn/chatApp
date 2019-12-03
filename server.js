@@ -23,6 +23,9 @@ io.on('connection', function(socket){
     socket.on('typing', function(){
         socket.broadcast.emit('typing')
     })
+    socket.on('not typing', function(){
+        socket.broadcast.emit('not typing')
+    })
     socket.on('newuser', function (nick){
         var newUser = nick;
         console.log(newUser + ' connected');
