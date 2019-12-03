@@ -8,12 +8,12 @@ body {
 }
 
 #messages li {
-     padding: 15px 15px; 
-    }
+    padding: 15px 15px; 
+}
     
 #messages li:nth-child(odd) {
-     background: #eee; 
-    }
+    background: #eee; 
+}
 
 
 #messages img {

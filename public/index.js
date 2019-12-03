@@ -13,11 +13,13 @@ socket.on('message', function(msg){
 });
 //Shows if user disconnected
 socket.on('disconnect message', function(){
+    let li = document.createElement('li');
     li.innerText = "User disconnected"
     messageList.appendChild(li)
 });
 //Shows if user connected
 socket.on('connection message', function(){
+    let li = document.createElement('li');
     li.innerText = "User connected"
     messageList.appendChild(li)
 });
