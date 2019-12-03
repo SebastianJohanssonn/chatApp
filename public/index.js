@@ -3,6 +3,7 @@ const messageList = document.getElementById('messages')
 const typing = document.getElementById('typing')
 const messageInput = document.getElementById('message')
 const commands = document.getElementById("commands")
+const messageForm = document.getElementById("messageForm")
 
 //Shows message
 socket.on('message', function(msg){
@@ -65,16 +66,16 @@ $(function () {
     socket.emit('newuser', nick);
 });
 
-$(function () {
-    $('form').submit(function(e){
-        e.preventDefault();
-        if(messageInput.value.indexOf("/") === 0){
-            socket.emit("gif", messageInput.value.substring(1))
-        }else {
-            socket.emit('chat message', messageInput.value);
-        }
-        messageInput.value = "";
-        return false;
-    });
-});
+messageForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    if(messageInput.value.indexOf("/") === 0){
+        socket.emit("gif", messageInput.value.substring(1))
+    }else {
+        socket.emit('chat message', messageInput.value);
+    }
+    messageInput.value = "";
+    return false;
+})
+    
+
 
