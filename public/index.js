@@ -18,7 +18,6 @@ socket.on('disconnect message', function(data){
     let li = document.createElement('li');
     li.innerText = data.user + " disconnected"
     messageList.appendChild(li)
-    console.log("leave")
 });
 
 //Shows if user connected
@@ -45,17 +44,16 @@ function showCommands(){
 }
 
 $('#userForm').on("submit", function(e){
-    console.log('hej' + username.val())
     socket.emit('set user', username.val(), function(data){
         $('#userFormWrap').hide();
         $('#mainWrap').show();
     });
+    socket.emit("connection message")
     e.preventDefault();
 });  
 
 function initSite(){
     socket.on('typing', function(data){
-        console.log(data)
         typing.innerHTML = '<p><em>' + data.user + ' is typing...</em></p>';  
     })
     socket.on('not typing', function(){
@@ -76,7 +74,7 @@ function initSite(){
                 socket.emit("gif", messageInput.value.substring(5))
             }
             if(messageInput.value.indexOf("/leave") === 0){
-                socket.disconnect()            
+                          
             }
         }else {
             socket.emit('chat message', messageInput.value);
@@ -86,17 +84,12 @@ function initSite(){
     })
 
     $('#userForm').on("submit", function(e){
-        console.log('hej' + username.val())
         socket.emit('set user', username.val(), function(data){
           $('#userFormWrap').hide();
           $('#mainWrap').show();
           });
           e.preventDefault();
-      });  
-      
-  socket.on('users', function(data){
-      console.log('qq' + socket.username)
-  })
+      });
 
 }
 
