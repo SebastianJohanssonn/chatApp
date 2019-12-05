@@ -5,6 +5,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 let key = "P3AQOb2xS2adhA2lOUe4kgRmuuGn0MMp"
 var users = [];
+var rooms = []
 
 app.use(express.static('public'))
 
@@ -12,9 +13,12 @@ io.on('connection', function(socket){
     socket.broadcast.emit("connection message")
 
     socket.on('chat message', function(msg){
-        io.send('<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
-        console.log()
+        socket.emit("chat message", '<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
+        
     });
+    socket.on("private message", function(msg){
+        io.to(socket.room).emit("chat message", '<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
+    })
     socket.on('disconnect', function(data){
         socket.broadcast.emit('disconnect message', {
             msg: data,
@@ -40,6 +44,24 @@ io.on('connection', function(socket){
             users.push(socket.username);
             updateUsers();
         }
+    })
+
+    socket.on('create', function(room, password) {
+        rooms.push({
+            room: room,
+            password: password
+        })
+        io.emit("create", rooms)
+    });
+    
+    socket.on("join", function(room, password){
+        for(var i; i < rooms.length; i++){
+            if(rooms[i].room === room && rooms[i].password === password){
+                socket.join(room)
+                socket.room = room
+            }
+        }
+        console.log(room, password)
     })
 
     function updateUsers(){
