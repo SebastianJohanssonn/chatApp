@@ -18,6 +18,7 @@ socket.on('disconnect message', function(data){
     let li = document.createElement('li');
     li.innerText = data.user + " disconnected"
     messageList.appendChild(li)
+    console.log("leave")
 });
 
 //Shows if user connected
@@ -42,16 +43,6 @@ function showCommands(){
         commands.style.display = "none"
     }
 }
-
-messageForm.addEventListener("submit", function(e){
-    e.preventDefault();
-    if(messageInput.value.indexOf("/") === 0){
-        socket.emit("gif", messageInput.value.substring(1))
-    }else {
-        socket.emit('chat message', messageInput.value);
-    }
-    messageInput.value = "";
-})
 
 $('#userForm').on("submit", function(e){
     console.log('hej' + username.val())
@@ -85,15 +76,13 @@ function initSite(){
                 socket.emit("gif", messageInput.value.substring(5))
             }
             if(messageInput.value.indexOf("/leave") === 0){
-                console.log("user left the room")
-            }
-            if(messageInput.value.indexOf("/leave") === 0){
-                console.log("user left the room")
+                socket.disconnect()            
             }
         }else {
             socket.emit('chat message', messageInput.value);
         }
         messageInput.value = "";
+        socket.emit("not typing")
     })
 
     $('#userForm').on("submit", function(e){
