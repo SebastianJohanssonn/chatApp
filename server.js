@@ -15,18 +15,23 @@ io.on('connection', function(socket){
         io.send('<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
         console.log()
     });
-    socket.on('disconnect', function(){
-        socket.broadcast.emit('disconnect message')
+    socket.on('disconnect', function(data){
+        socket.broadcast.emit('disconnect message', {
+            msg: data,
+            user: socket.username
+        })
     })
-    socket.on('typing', function(){
-        socket.broadcast.emit('typing')
+    socket.on('typing', function(data){
+        socket.broadcast.emit('typing', {
+            msg: data,
+            user: socket.username
+        });
     })
     socket.on('not typing', function(){
         socket.broadcast.emit('not typing')
     })
  
     socket.on('set user' , (data, callback) =>{
-        console.log(callback)
         if(data === ''){
             callback(false);
         }else{

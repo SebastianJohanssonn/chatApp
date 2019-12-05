@@ -14,16 +14,16 @@ socket.on('message', function(msg){
     messageList.append(li)
 });
 //Shows if user disconnected
-socket.on('disconnect message', function(){
+socket.on('disconnect message', function(data){
     let li = document.createElement('li');
-    li.innerText =  " disconnected"
+    li.innerText = data.user + " disconnected"
     messageList.appendChild(li)
 });
 
 //Shows if user connected
-socket.on('connection message', function(){
+socket.on('connection message', function(data){
     let li = document.createElement('li');
-    li.innerText =  " connected"
+    li.innerText = data.user + " connected"
     messageList.appendChild(li)
 });
 //Show gif
@@ -42,9 +42,30 @@ function showCommands(){
         commands.style.display = "none"
     }
 }
-function initSite(nick){
-    socket.on('typing', function(){
-        typing.innerHTML = '<p><em>' + socket.nick + 'is typing...</em></p>';  
+
+messageForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    if(messageInput.value.indexOf("/") === 0){
+        socket.emit("gif", messageInput.value.substring(1))
+    }else {
+        socket.emit('chat message', messageInput.value);
+    }
+    messageInput.value = "";
+})
+
+$('#userForm').on("submit", function(e){
+    console.log('hej' + username.val())
+    socket.emit('set user', username.val(), function(data){
+        $('#userFormWrap').hide();
+        $('#mainWrap').show();
+    });
+    e.preventDefault();
+});  
+
+function initSite(){
+    socket.on('typing', function(data){
+        console.log(data)
+        typing.innerHTML = '<p><em>' + data.user + ' is typing...</em></p>';  
     })
     socket.on('not typing', function(){
         typing.innerHTML = ""   
