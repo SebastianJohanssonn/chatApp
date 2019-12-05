@@ -8,10 +8,6 @@ var users = [];
 
 app.use(express.static('public'))
 
-app.get("/gifs/:gif", function(req, res){
-    
-})
-
 io.on('connection', function(socket){
     socket.broadcast.emit("connection message")
 

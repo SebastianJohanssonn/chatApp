@@ -10,8 +10,8 @@ let username = $('#username')
 //Shows message
 socket.on('message', function(msg){
     let li = document.createElement('li');
-   li.innerHTML = msg
-   messageList.append(li)
+    li.innerHTML = msg
+    messageList.append(li)
 });
 //Shows if user disconnected
 socket.on('disconnect message', function(){
@@ -60,7 +60,15 @@ function initSite(nick){
     messageForm.addEventListener("submit", function(e){
         e.preventDefault();
         if(messageInput.value.indexOf("/") === 0){
-            socket.emit("gif", messageInput.value.substring(1))
+            if(messageInput.value.indexOf("/gif") === 0){
+                socket.emit("gif", messageInput.value.substring(5))
+            }
+            if(messageInput.value.indexOf("/leave") === 0){
+                console.log("user left the room")
+            }
+            if(messageInput.value.indexOf("/leave") === 0){
+                console.log("user left the room")
+            }
         }else {
             socket.emit('chat message', messageInput.value);
         }
