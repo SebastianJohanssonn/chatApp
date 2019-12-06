@@ -19,6 +19,10 @@ ul {
     margin-left: 1em;
 }
 
+#mainWrap{
+    height: 90%;
+}
+
 #commands {
     background-color: white;
     border: solid black 2px;
