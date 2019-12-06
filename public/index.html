@@ -11,25 +11,32 @@
     <title>shutUp chatApp</title>
 </head>
 <body onload="initSite()">
-  <div id="mainWrap">  
-  <ul id="messages"></ul>
-    <div id="typing"></div>
-    <div id="commands">
+  <div id="mainWrap" class="container h-100 jumbotron"> 
+    <div id="typing" class=""></div>
+    <div id="messageContainer" class="h-100 bg-white overflow-auto" style="position: relative;">
+      <ul id="messages" class="">
+
+      </ul>
+    </div> 
+    <form id="messageForm" class="d-flex mt-3" action="">
+        <input class="input-group" oninput="showCommands()" id="message" placeholder="Type message here, or '/' for list of commands" autocomplete="off"/><button class="btn btn-primary">Send</button>
+    </form>
+    <div id="commands" class="p-2">
         <ul>
             <p>List of commands:</p>
-            <li>Random word for a random gif</li>
+            <li>/gif + word of your choice</li>
         </ul>
     </div>
-    <form id="messageForm"  action="">
-        <input class="input-group" oninput="showCommands()" id="message" placeholder="Type message here, or type '/' + word of your choice for a random gif " autocomplete="off"/><button class="btn btn-primary">Send</button>
-    </form>
   </div>
-    <div id="userFormWrap">
-      <form id="userForm" action="">
-        <input type="text" class="form-control" id="username" placeholder="Whats your Name">
-        <input type="submit" class="btn btn-secondary" id="subButton" value="Press">
-      </form>
-
+    <div class="container h-100 text-center" id="userFormWrap">
+      <h1>Welcome to THE chat app</h1>
+      <div class="row align-items-center">
+        <form class="jumbotron mx-auto text-center mt-5" id="userForm" action="">
+          <h3>Please choose a username:</h3>
+          <input type="text" class="form-control" id="username" placeholder="">
+          <input type="submit" class="btn btn-secondary mt-3" id="subButton" value="Join">
+        </form>
+      </div>
     </div>
     
 

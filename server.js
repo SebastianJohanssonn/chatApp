@@ -9,17 +9,11 @@ var users = [];
 app.use(express.static('public'))
 
 io.on('connection', function(socket){
-    socket.broadcast.emit("connection message")
-
     socket.on('chat message', function(msg){
-        io.send('<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
-        console.log()
+        io.send('<span style="font-size:13px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
     });
     socket.on('disconnect', function(data){
-        socket.broadcast.emit('disconnect message', {
-            msg: data,
-            user: socket.username
-        })
+        io.sockets.emit("not typing")
     })
     socket.on('typing', function(data){
         socket.broadcast.emit('typing', {
@@ -51,7 +45,7 @@ io.on('connection', function(socket){
             if(err){
                console.log(err)
             }else {
-                io.emit('recieve gif', body)
+                io.emit('recieve gif', body, socket.username)
             }   
         })
     })

@@ -12,14 +12,18 @@ socket.on('message', function(msg){
     let li = document.createElement('li');
     li.innerHTML = msg
     messageList.append(li)
+    scrollBottom()
 });
 //Show gif
-socket.on("recieve gif", function(data){
-    const gifDiv = document.getElementById("messages");
+socket.on("recieve gif", function(data, username){
+    const li = document.createElement("li")
     const image = document.createElement("img")
-    image.className= "row"
+    image.className = "rounded mx-auto d-block mt-1"
+    li.innerHTML = '<span style="font-size:13px;font-weight:700;text-decoration:underline;">' + username + ':</span><br>'
     image.src = JSON.parse(data).data[0].images.downsized.url
-    gifDiv.appendChild(image)
+    li.append(image)
+    messageList.append(li)
+    scrollBottom()
 })
 
 function showCommands(){
@@ -31,25 +35,32 @@ function showCommands(){
 }
 
 $('#userForm').on("submit", function(e){
+    let string = username.val()
+    let upperCaseUsername = string[0].toUpperCase() + string.slice(1)
     if(username.val() === ""){
         alert("You have to choose a username!")
     }else{
-        socket.emit('set user', username.val(), function(data){
+        socket.emit('set user', upperCaseUsername, function(data){
             $('#userFormWrap').hide();
             $('#mainWrap').show();
         });
 
     }
     e.preventDefault();
-});  
+})
 
+function scrollBottom() {
+    var log = $('#messageContainer');
+    log.scrollTop(log.prop("scrollHeight"));
+}
+
+socket.on('typing', function(data){
+    typing.innerHTML = '<p><em>' + data.user + ' is typing...</em></p>'; 
+})
+socket.on('not typing', function(){
+    typing.innerHTML = ""   
+})
 function initSite(){
-    socket.on('typing', function(data){
-        typing.innerHTML = '<p><em>' + data.user + ' is typing...</em></p>';  
-    })
-    socket.on('not typing', function(){
-        typing.innerHTML = ""   
-    })
     messageInput.addEventListener('keyup', function(e){
         if(e.keyCode === 13 || messageInput.value === ""){
             socket.emit("not typing")
@@ -68,13 +79,11 @@ function initSite(){
                           
             }
         }else {
-            socket.emit('chat message', messageInput.value);
+            if(messageInput.value){
+                socket.emit('chat message', messageInput.value);
+            }
         }
         messageInput.value = "";
         socket.emit("not typing")
     })
 }
-
-
-
-

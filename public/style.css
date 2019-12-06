@@ -1,6 +1,28 @@
 body {
-    max-width: 500px;
+    max-width: 700px;
+    height: 100vh;
     margin: auto;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    padding-left: 1em;
+}
+
+#typing{
+    margin-top: -2em;
+}
+#commands li {
+    margin-left: 1em;
+}
+
+#commands {
+    background-color: white;
+    border: solid black 2px;
+    border-radius: 5px;
 }
 
 #messages{ 
@@ -9,12 +31,10 @@ body {
 
 #messages li {
     padding: 15px 15px; 
+    border: solid 0.5px grey;
+    border-radius: 10px;
+    margin-top: 5px;
 }
-    
-#messages li:nth-child(odd) {
-    background: #eee; 
-}
-
 
 #messages img {
     margin-left: 0px;
@@ -29,5 +49,6 @@ body {
 
 #mainWrap{
     display:none;
+    margin: 0;
 }
 
