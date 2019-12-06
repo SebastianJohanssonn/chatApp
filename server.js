@@ -13,12 +13,8 @@ io.on('connection', function(socket){
     socket.broadcast.emit("connection message")
 
     socket.on('chat message', function(msg){
-        socket.emit("chat message", '<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
-        
+        io.sockets.to(socket.room).emit("chat message", '<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
     });
-    socket.on("private message", function(msg){
-        io.to(socket.room).emit("chat message", '<span style="font-size:10px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
-    })
     socket.on('disconnect', function(data){
         socket.broadcast.emit('disconnect message', {
             msg: data,
@@ -47,8 +43,9 @@ io.on('connection', function(socket){
     })
 
     socket.on('create', function(room, password) {
+        socket.room = room
         rooms.push({
-            room: room,
+            room: socket.room,
             password: password
         })
         io.emit("create", rooms)
@@ -58,10 +55,9 @@ io.on('connection', function(socket){
         for(var i; i < rooms.length; i++){
             if(rooms[i].room === room && rooms[i].password === password){
                 socket.join(room)
-                socket.room = room
             }
         }
-        console.log(room, password)
+        console.log(socket.room)
     })
 
     function updateUsers(){

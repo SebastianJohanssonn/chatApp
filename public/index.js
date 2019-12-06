@@ -16,13 +16,9 @@ let roomName;
 socket.on('chat message', function(msg){
     let li = document.createElement('li');
     li.innerHTML = msg
-    messageList.appendChild(li)
+    messageList.append(li)
+    console.log("hej")
 });
-socket.on('private message', function(msg){
-    let li = document.createElement('li');
-    li.innerHTML = msg
-    messageList.appendChild(li)
-})
 //Shows if user disconnected
 socket.on('disconnect message', function(data){
     let li = document.createElement('li');
@@ -44,13 +40,7 @@ socket.on("recieve gif", function(data){
     image.src = JSON.parse(data).data[0].images.downsized.url
     gifDiv.appendChild(image)
 })
-socket.on("create", function(rooms){
-    const room = document.createElement("li")
-    room.innerHTML = rooms[0].room
-    room.setAttribute("onclick", "clickedRoom(event)")
-    room.className = rooms[0].room
-    roomList.appendChild(room)
-})
+
 
 function showCommands(){
     if(messageInput.value === "/"){
@@ -71,7 +61,6 @@ function clickedRoom(event){
     roomName = event.target.className
     password.className = roomName
 }
-
 
 $('#userForm').on("submit", function(e){
     socket.emit('set user', username.val(), function(data){
@@ -97,7 +86,14 @@ function initSite(){
             socket.emit('typing')
         }
     })
-    
+    socket.on("create", function(rooms){
+        const room = document.createElement("li")
+        room.innerHTML = rooms[0].room
+        room.setAttribute("onclick", "clickedRoom(event)")
+        room.className = rooms[0].room
+        roomList.appendChild(room)
+    })
+
     messageForm.addEventListener("submit", function(e){
         e.preventDefault();
         if(messageInput.value.indexOf("/") === 0){
@@ -108,24 +104,11 @@ function initSite(){
                           
             }
         }else {
-            if(roomName === currentRoom){
-                socket.emit("pivate message")
-            }else{
-                socket.emit('chat message', messageInput.value);
-            }
+            socket.emit("chat message", messageInput.value)
         }
         messageInput.value = "";
         socket.emit("not typing")
     })
-
-    $('#userForm').on("submit", function(e){
-        socket.emit('set user', username.val(), function(data){
-          $('#userFormWrap').hide();
-          $('#mainWrap').show();
-          });
-          e.preventDefault();
-      });
-
 }
 
 
