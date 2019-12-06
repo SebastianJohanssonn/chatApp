@@ -31,10 +31,15 @@ function showCommands(){
 }
 
 $('#userForm').on("submit", function(e){
-    socket.emit('set user', username.val(), function(data){
-        $('#userFormWrap').hide();
-        $('#mainWrap').show();
-    });
+    if(username.val() === ""){
+        alert("You have to choose a username!")
+    }else{
+        socket.emit('set user', username.val(), function(data){
+            $('#userFormWrap').hide();
+            $('#mainWrap').show();
+        });
+
+    }
     e.preventDefault();
 });  
 
