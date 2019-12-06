@@ -14,7 +14,7 @@ socket.on('message', function(msg){
     messageList.append(li)
     scrollBottom()
 });
-//Show gif
+//Shows gif
 socket.on('recieve gif', function(data, username){
     const li = document.createElement('li')
     const image = document.createElement('img')
@@ -25,6 +25,14 @@ socket.on('recieve gif', function(data, username){
     messageList.append(li)
     scrollBottom()
 })
+//Shows if someone is typing
+socket.on('typing', function(data){
+    typing.innerHTML = '<p><em>' + data.user + ' is typing...</em></p>'
+})
+//Removes typing message
+socket.on('not typing', function(){
+    typing.innerHTML = ''   
+})
 
 function showCommands(){
     if(messageInput.value === '/'){
@@ -32,6 +40,11 @@ function showCommands(){
     }else {
         commands.style.display = 'none'
     }
+}
+
+function scrollBottom() {
+    var log = $('#messageContainer')
+    log.scrollTop(log.prop('scrollHeight'))
 }
 
 $('#userForm').on('submit', function(e){
@@ -49,17 +62,6 @@ $('#userForm').on('submit', function(e){
     e.preventDefault()
 })
 
-function scrollBottom() {
-    var log = $('#messageContainer')
-    log.scrollTop(log.prop('scrollHeight'))
-}
-
-socket.on('typing', function(data){
-    typing.innerHTML = '<p><em>' + data.user + ' is typing...</em></p>'
-})
-socket.on('not typing', function(){
-    typing.innerHTML = ''   
-})
 function initSite(){
     messageInput.addEventListener('keyup', function(e){
         if(e.keyCode === 13 || messageInput.value === ''){
