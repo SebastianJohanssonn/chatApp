@@ -1,6 +1,6 @@
 # Second assignement in my API course together with my classmate Anel.
 
-### This is a chat app that uses webbsockets and has implementations that interact with a 3rd party system.
+### This is a chat app that uses webbsockets (socket.io) and has implementations that interact with a 3rd party system.
 ### You can send messages to each other, there is also a feature that makes it possible to send gifs using "/" in the beginning of the message.
 ### How to start the app:
 1. Type "npm install" to install the dependencies.
