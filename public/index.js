@@ -13,19 +13,6 @@ socket.on('message', function(msg){
     li.innerHTML = msg
     messageList.append(li)
 });
-//Shows if user disconnected
-socket.on('disconnect message', function(data){
-    let li = document.createElement('li');
-    li.innerText = data.user + " disconnected"
-    messageList.appendChild(li)
-});
-
-//Shows if user connected
-socket.on('connection message', function(data){
-    let li = document.createElement('li');
-    li.innerText = data.user + " connected"
-    messageList.appendChild(li)
-});
 //Show gif
 socket.on("recieve gif", function(data){
     const gifDiv = document.getElementById("messages");
@@ -48,7 +35,6 @@ $('#userForm').on("submit", function(e){
         $('#userFormWrap').hide();
         $('#mainWrap').show();
     });
-    socket.emit("connection message")
     e.preventDefault();
 });  
 
@@ -82,15 +68,6 @@ function initSite(){
         messageInput.value = "";
         socket.emit("not typing")
     })
-
-    $('#userForm').on("submit", function(e){
-        socket.emit('set user', username.val(), function(data){
-          $('#userFormWrap').hide();
-          $('#mainWrap').show();
-          });
-          e.preventDefault();
-      });
-
 }
 
 
