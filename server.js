@@ -13,7 +13,7 @@ io.on('connection', function(socket){
         io.send('<span style="font-size:13px;font-weight:700;text-decoration:underline;">' + socket.username + '</span>' + '<br>' + msg)
     });
     socket.on('disconnect', function(data){
-        io.sockets.emit("not typing")
+        socket.broadcast.emit("not typing")
     })
     socket.on('typing', function(data){
         socket.broadcast.emit('typing', {
